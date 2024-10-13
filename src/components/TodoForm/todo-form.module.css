@@ -1,0 +1,17 @@
+.form {
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+}
+
+.form__input {
+    line-height: 2em;
+    font-size: inherit;
+    width: 100%;
+}
+
+.form__button {
+    line-height: 2.5em;
+    width: 3em;
+    text-align: center;
+}

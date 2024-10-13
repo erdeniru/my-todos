@@ -63,4 +63,42 @@ $ git add .
 $ git commit -m "init my-todos"
 $ git log --oneline
 ```
-
+6. Создать и перейти в ветку Версии 0.1.0 (Задание 1)
+```bash
+$ git checkout -b release/0.1.0
+```
+Разработка...
+```bash
+$ git status
+$ git add .
+$ git commit -m "release 0.1.0"
+$ git log --oneline
+$ git push origin release/0.1.0
+```
+7. Перейти в ветку разработки и выполнить слияние с Версией 0.1.0
+```bash
+$ git checkout develop
+$ git merge release/0.1.0
+```
+8. Создать и перейти в ветку Версии 0.2.0 (Задание 2)
+```bash
+$ git checkout -b release/0.2.0
+```
+Установить и запустить JSON Server
+```batch
+npm install -g json-server@0.17.4
+npx json-server --watch src/db.json --port 3003 --delay 1000
+```
+Разработка...
+```bash
+$ git status
+$ git add .
+$ git commit -m "release 0.2.0"
+$ git log --oneline
+$ git push origin release/0.2.0
+```
+9. Перейти в ветку разработки и выполнить слияние с Версией 0.2.0
+```bash
+$ git checkout develop
+$ git merge release/0.2.0
+```

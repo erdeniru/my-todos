@@ -1,3 +1,44 @@
 .app {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+}
+
+.container {
+    min-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.btn {
+    margin: 0;
+    padding: 1px 1px;
+    border: solid 1px transparent;
+    border-radius: 2px;
+
+    cursor: pointer;
+
+    outline: none;
+    display: inline-block;
     text-align: center;
+
+    color: #fff;
+    /* background-color: #ddd; */
+}
+
+.btn:active {
+    transform: translateY(1px);
+    filter: saturate(150%);
+}
+
+.btn:hover,
+.btn:focus {
+    color: #ddd;
+    border-color: #bbb;
+}
+
+.btn::-moz-focus-inner {
+    border: none;
 }
