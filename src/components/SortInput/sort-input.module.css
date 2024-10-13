@@ -1,0 +1,8 @@
+.sort {
+    display: flex;
+    gap: 0.5em;
+}
+.sort__select {
+    line-height: 1em;
+    font-size: inherit;
+}

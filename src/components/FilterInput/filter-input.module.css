@@ -1,0 +1,10 @@
+.filter {
+    display: flex;
+    gap: 0.5em;
+}
+
+.filter__input {
+    line-height: 1em;
+    font-size: inherit;
+    width: 100%;
+}
