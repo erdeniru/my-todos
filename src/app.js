@@ -3,11 +3,6 @@ import { TodoForm, FilterInput, TodoList } from './components';
 import styles from './app.module.css';
 
 export const App = () => {
-    /**
-     * TODO:
-     * - реализовать useFetch
-     */
-
     const {
         todos,
         filter,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDebounce } from '../hooks';
-
-const TODOS_URL = 'http://localhost:3003/todos';
+import { ref, onValue, push, update, remove } from 'firebase/database';
+import { db } from '../firebase';
 
 export const useTodosState = () => {
     const [todos, setTodos] = useState([]);
@@ -17,47 +17,33 @@ export const useTodosState = () => {
     const [currentId, setCurrentId] = useState(null);
 
     useEffect(() => {
-        let url_param = '';
-        if (debounceFilter !== '') {
-            url_param = '?title_like=' + debounceFilter;
-        }
+        const todosDbRef = ref(db, 'todos');
 
-        fetch(TODOS_URL + url_param) // фильтрацию выполняем на стороне сервера
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos(data);
-                console.log('Загрузка данных выполнена', data);
-            })
-            .catch((error) => {
-                console.log('Ошибка загрузки данных', error);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+        return onValue(todosDbRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            const array = Object.entries(data).map(([id, value]) => ({ ...value, id }));
+
+            if (debounceFilter !== '') {
+                const filteredTodos = array.filter(({ title }) =>
+                    title.toLowerCase().includes(debounceFilter.toLowerCase()),
+                );
+                setTodos(filteredTodos);
+            } else {
+                setTodos(array);
+            }
+
+            setIsLoading(false);
+        });
     }, [debounceFilter]);
 
     const addTodo = (data) => {
         setIsCreating(true);
 
-        fetch(TODOS_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(data),
-        })
+        const todosDbRef = ref(db, 'todos');
+
+        push(todosDbRef, data)
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos((prevTodos) => [...prevTodos, data]);
-                console.log('Запись добавлена, ответ сервера:', data);
+                console.log('Запись добавлена, ответ сервера: ', response);
             })
             .catch((error) => {
                 console.log('Ошибка добавления записи', error);
@@ -71,18 +57,11 @@ export const useTodosState = () => {
         setCurrentId(id);
         setIsDeleting(true);
 
-        fetch(TODOS_URL + '/' + id, {
-            method: 'DELETE',
-        })
+        const todosDbRef = ref(db, 'todos/' + id);
+
+        remove(todosDbRef)
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-                console.log('Запись удалена, ответ сервера:', data);
+                console.log('Запись удалена, ответ сервера: ', response);
             })
             .catch((error) => {
                 console.log('Ошибка удаления записи', error);
@@ -97,29 +76,11 @@ export const useTodosState = () => {
         setCurrentId(id);
         setIsUpdating(true);
 
-        fetch(TODOS_URL + '/' + id, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify({
-                completed: completed,
-            }),
-        })
+        const todosDbRef = ref(db, 'todos/' + id);
+
+        update(todosDbRef, { completed: completed })
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos((prevTodos) =>
-                    prevTodos.map((todo) =>
-                        todo.id === data.id ? { ...todo, completed: completed } : todo,
-                    ),
-                );
-                console.log('Запись обновлена, ответ сервера:', data);
-            })
-            .catch((error) => {
-                console.log('Ошибка обновления записи', error);
+                console.log('Смартфон обновлен, ответ сервера: ', response);
             })
             .finally(() => {
                 setIsUpdating(false);
