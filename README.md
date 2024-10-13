@@ -57,3 +57,10 @@ my-app-react -> my-todos
 npm install
 npm run start
 ```
+```bash
+$ git status
+$ git add .
+$ git commit -m "init my-todos"
+$ git log --oneline
+```
+
