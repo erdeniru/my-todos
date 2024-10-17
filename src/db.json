@@ -54,6 +54,11 @@
       "title": "Еще одно задание 1111",
       "completed": false,
       "id": 27
+    },
+    {
+      "title": "1. Реализовать приложение на базе Create React App — страницу со списком дел (Todo list)",
+      "completed": false,
+      "id": 28
     }
   ]
 }
