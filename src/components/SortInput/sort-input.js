@@ -12,8 +12,8 @@ export const SortInput = ({ sort, setSort }) => {
                 }}
             >
                 <option value="">По умолчанию</option>
-                <option value="asc">Название от А до Я</option>
-                <option value="desc">Название от Я до А</option>
+                <option value="asc">Название по возрастанию</option>
+                <option value="desc">Название по убыванию</option>
             </select>
         </div>
     );
