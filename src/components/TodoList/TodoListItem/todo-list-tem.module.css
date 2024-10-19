@@ -1,5 +1,16 @@
+.title__link {
+    color: darkslategray;
+    text-decoration: none;
+}
+
+.title__link:hover {
+    background-color: lightskyblue;
+    cursor: pointer;
+}
+
 .title {
+    padding: 5px;
     text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
 }

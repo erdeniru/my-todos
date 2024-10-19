@@ -9,7 +9,7 @@ export const useInputState = (initialValue) => {
             setValue(event.target.value);
         },
         reset: () => {
-            setValue('');
+            setValue(initialValue);
         },
     };
 };

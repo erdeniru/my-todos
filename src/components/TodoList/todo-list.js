@@ -17,10 +17,8 @@ const stringDescending = (a, b) => {
 
 export const TodoList = ({
     todos,
-    deleteTodo,
     updateCompletedTodo,
     isLoading,
-    isDeleting,
     isUpdating,
     currentId,
 }) => {
@@ -51,9 +49,7 @@ export const TodoList = ({
                                 <TodoListItem
                                     todo={todo}
                                     updateCompletedTodo={updateCompletedTodo}
-                                    deleteTodo={deleteTodo}
                                     isUpdating={isUpdating}
-                                    isDeleting={isDeleting}
                                     currentId={currentId}
                                 />
                             </li>

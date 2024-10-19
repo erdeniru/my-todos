@@ -93,6 +93,36 @@ export const useTodosState = () => {
             });
     };
 
+    const updateTodo = (id, todo) => {
+        setCurrentId(todo.id);
+        setIsUpdating(true);
+
+        fetch(TODOS_URL + '/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            body: JSON.stringify(todo),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Не удалось получить ответ от сервера');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setTodos((prevTodos) =>
+                    prevTodos.map((value) => (value.id === data.id ? todo : value)),
+                );
+                console.log('Запись обновлена, ответ сервера:', data);
+            })
+            .catch((error) => {
+                console.log('Ошибка обновления записи', error);
+            })
+            .finally(() => {
+                setIsUpdating(false);
+                setCurrentId(null);
+            });
+    };
+
     const updateCompletedTodo = (id, completed) => {
         setCurrentId(id);
         setIsUpdating(true);
@@ -133,6 +163,7 @@ export const useTodosState = () => {
         setFilter,
         addTodo,
         deleteTodo,
+        updateTodo,
         updateCompletedTodo,
         isLoading,
         isCreating,
