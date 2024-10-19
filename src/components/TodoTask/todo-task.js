@@ -3,14 +3,14 @@ import { useTodoState } from '../../hooks';
 import { BackButton } from '../BackButton/back-button';
 import { useState } from 'react';
 import styles from './todo-task.module.css';
+import { TodoEditForm } from '../TodoEditForm/todo-edit-form';
 
 export const TodoTask = () => {
     const params = useParams();
     const id = params.id;
 
     /** FIXME:
-     * 1. Реализовать редактирование задание через форму со сбросом значений
-     * 2. Найти способ объеденить use-todos-state и use-todo-state
+     * 1. Найти способ объеденить use-todos-state и use-todo-state
      *      useTodosState - хук для управления состоянием списка задач
      *      useTodoState - хук для управления состоянием одной задачи
      */
@@ -21,24 +21,21 @@ export const TodoTask = () => {
     const navigate = useNavigate();
 
     const onEdit = () => setIsEditMode(!isEditMode);
-    const onCancel = () => {
-        resetTodo();
-        setIsEditMode(false);
-    };
+
     const onDelete = () => {
         deleteTodo();
         navigate('/', { replace: true });
     };
+
     const onSave = () => {
         updateTodo();
         setIsEditMode(false);
     };
 
-    const onChangeTitle = (event) =>
-        setTodo((prev) => ({ ...prev, title: event.target.value }));
-
-    const onChangeCompeleted = (event) =>
-        setTodo((prev) => ({ ...prev, completed: event.target.checked }));
+    const onCancel = () => {
+        resetTodo();
+        setIsEditMode(false);
+    };
 
     return (
         <>
@@ -49,33 +46,13 @@ export const TodoTask = () => {
                 </button>
                 <button onClick={onDelete}>❌ Удалить</button>
             </div>
-            <div className={styles.data}>
-                <div className={styles.title}>
-                    <label className={styles.title_label}>Задание</label>
-                    <br />
-                    <textarea
-                        className={styles.title_textarea}
-                        value={todo.title}
-                        onChange={onChangeTitle}
-                        disabled={!isEditMode}
-                    />
-                </div>
-                <div className={styles.completed}>
-                    <input
-                        type="checkbox"
-                        checked={todo.completed || false}
-                        onChange={onChangeCompeleted}
-                        disabled={!isEditMode}
-                    />{' '}
-                    Выполнено
-                </div>
-                {isEditMode ? (
-                    <div className={styles.action}>
-                        <button onClick={onCancel}>🚫 Отмена</button>
-                        <button onClick={onSave}>✅ Сохранить</button>
-                    </div>
-                ) : null}
-            </div>
+            <TodoEditForm
+                todo={todo}
+                setTodo={setTodo}
+                readonly={!isEditMode}
+                onSubmit={onSave}
+                onCancel={onCancel}
+            />
         </>
     );
 };

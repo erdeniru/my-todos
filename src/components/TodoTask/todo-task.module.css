@@ -3,26 +3,3 @@
     justify-content: flex-start;
     gap: 0.5em;
 }
-
-label {
-    font-weight: bold;
-}
-
-.title_textarea {
-    width: 100%;
-    font-family: inherit;
-    font-size: inherit;
-    min-height: 120px;
-}
-
-.data {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-}
-
-.action {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5em;
-}

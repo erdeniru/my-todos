@@ -1,0 +1,22 @@
+label {
+    font-weight: bold;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.title_textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    min-height: 120px;
+}
+
+.action {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5em;
+}

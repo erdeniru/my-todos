@@ -1,8 +1,8 @@
 import { useInputState } from '../../hooks';
 import stylesApp from '../../app.module.css';
-import styles from './todo-form.module.css';
+import styles from './todo-add-form.module.css';
 
-export const TodoForm = ({ addTodo, isCreating }) => {
+export const TodoAddForm = ({ addTodo, isCreating }) => {
     const { value, onChange, reset } = useInputState('');
 
     const handleSubmit = (onSubmit) => (event) => {

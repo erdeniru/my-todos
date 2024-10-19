@@ -1,5 +1,5 @@
 import { useTodosState } from '../../hooks';
-import { TodoForm, FilterInput, TodoList } from '../../components';
+import { TodoAddForm, FilterInput, TodoList } from '../../components';
 
 export const TodoMain = () => {
     const {
@@ -16,7 +16,7 @@ export const TodoMain = () => {
 
     return (
         <>
-            <TodoForm addTodo={addTodo} isCreating={isCreating} />
+            <TodoAddForm addTodo={addTodo} isCreating={isCreating} />
             <h2>Список дел</h2>
             <FilterInput filter={filter} setFilter={setFilter} />
             <TodoList
