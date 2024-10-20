@@ -11,7 +11,7 @@ export const TodoMain = () => {
         isLoading,
         isCreating,
         isUpdating,
-        currentId, // id текущего элемента в обработке (удаление, изменение)
+        currentTodoId, // id текущего элемента в обработке (удаление, изменение)
     } = useTodosState(); // хук для управления состоянием Todos
 
     return (
@@ -24,7 +24,7 @@ export const TodoMain = () => {
                 updateCompletedTodo={updateCompletedTodo}
                 isLoading={isLoading}
                 isUpdating={isUpdating}
-                currentId={currentId}
+                currentTodoId={currentTodoId}
             />
         </>
     );

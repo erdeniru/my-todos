@@ -20,7 +20,7 @@ export const TodoList = ({
     updateCompletedTodo,
     isLoading,
     isUpdating,
-    currentId,
+    currentTodoId,
 }) => {
     // сортировку выполняем на стороне клиента
     const [sort, setSort] = useState('');
@@ -50,7 +50,7 @@ export const TodoList = ({
                                     todo={todo}
                                     updateCompletedTodo={updateCompletedTodo}
                                     isUpdating={isUpdating}
-                                    currentId={currentId}
+                                    currentTodoId={currentTodoId}
                                 />
                             </li>
                         ))}

@@ -14,7 +14,7 @@ export const useTodosState = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const [currentId, setCurrentId] = useState(null);
+    const [currentTodoId, setCurrentTodoId] = useState(null);
 
     useEffect(() => {
         let url_param = '';
@@ -68,7 +68,7 @@ export const useTodosState = () => {
     };
 
     const deleteTodo = (id) => {
-        setCurrentId(id);
+        setCurrentTodoId(id);
         setIsDeleting(true);
 
         fetch(TODOS_URL + '/' + id, {
@@ -89,12 +89,12 @@ export const useTodosState = () => {
             })
             .finally(() => {
                 setIsDeleting(false);
-                setCurrentId(null);
+                setCurrentTodoId(null);
             });
     };
 
     const updateTodo = (id, todo) => {
-        setCurrentId(todo.id);
+        setCurrentTodoId(todo.id);
         setIsUpdating(true);
 
         fetch(TODOS_URL + '/' + id, {
@@ -119,12 +119,12 @@ export const useTodosState = () => {
             })
             .finally(() => {
                 setIsUpdating(false);
-                setCurrentId(null);
+                setCurrentTodoId(null);
             });
     };
 
     const updateCompletedTodo = (id, completed) => {
-        setCurrentId(id);
+        setCurrentTodoId(id);
         setIsUpdating(true);
 
         fetch(TODOS_URL + '/' + id, {
@@ -153,7 +153,7 @@ export const useTodosState = () => {
             })
             .finally(() => {
                 setIsUpdating(false);
-                setCurrentId(null);
+                setCurrentTodoId(null);
             });
     };
 
@@ -169,6 +169,6 @@ export const useTodosState = () => {
         isCreating,
         isDeleting,
         isUpdating,
-        currentId,
+        currentTodoId,
     };
 };
