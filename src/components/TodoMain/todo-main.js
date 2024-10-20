@@ -1,5 +1,5 @@
 import { useTodosState } from '../../hooks';
-import { TodoAddForm, FilterInput, TodoList } from '../../components';
+import { TodoAddForm, FilterInput, TodoList } from './components';
 
 export const TodoMain = () => {
     const {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDebounce } from '../hooks';
-
-const TODOS_URL = 'http://localhost:3003/todos';
+import { createTodoFetch, readTodosFetch, updateTodoFetch } from '../api/api';
 
 export const useTodosState = () => {
     const [todos, setTodos] = useState([]);
@@ -11,24 +10,15 @@ export const useTodosState = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
 
     const [currentTodoId, setCurrentTodoId] = useState(null);
 
     useEffect(() => {
         let url_param = '';
-        if (debounceFilter !== '') {
-            url_param = '?title_like=' + debounceFilter;
-        }
+        if (debounceFilter !== '') url_param = 'title_like=' + debounceFilter;
 
-        fetch(TODOS_URL + url_param) // фильтрацию выполняем на стороне сервера
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
+        readTodosFetch(url_param)
             .then((data) => {
                 setTodos(data);
                 console.log('Загрузка данных выполнена', data);
@@ -44,17 +34,7 @@ export const useTodosState = () => {
     const addTodo = (data) => {
         setIsCreating(true);
 
-        fetch(TODOS_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
+        createTodoFetch(data)
             .then((data) => {
                 setTodos((prevTodos) => [...prevTodos, data]);
                 console.log('Запись добавлена, ответ сервера:', data);
@@ -67,79 +47,11 @@ export const useTodosState = () => {
             });
     };
 
-    const deleteTodo = (id) => {
-        setCurrentTodoId(id);
-        setIsDeleting(true);
-
-        fetch(TODOS_URL + '/' + id, {
-            method: 'DELETE',
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-                console.log('Запись удалена, ответ сервера:', data);
-            })
-            .catch((error) => {
-                console.log('Ошибка удаления записи', error);
-            })
-            .finally(() => {
-                setIsDeleting(false);
-                setCurrentTodoId(null);
-            });
-    };
-
-    const updateTodo = (id, todo) => {
-        setCurrentTodoId(todo.id);
-        setIsUpdating(true);
-
-        fetch(TODOS_URL + '/' + id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify(todo),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setTodos((prevTodos) =>
-                    prevTodos.map((value) => (value.id === data.id ? todo : value)),
-                );
-                console.log('Запись обновлена, ответ сервера:', data);
-            })
-            .catch((error) => {
-                console.log('Ошибка обновления записи', error);
-            })
-            .finally(() => {
-                setIsUpdating(false);
-                setCurrentTodoId(null);
-            });
-    };
-
     const updateCompletedTodo = (id, completed) => {
         setCurrentTodoId(id);
         setIsUpdating(true);
 
-        fetch(TODOS_URL + '/' + id, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            body: JSON.stringify({
-                completed: completed,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Не удалось получить ответ от сервера');
-                }
-                return response.json();
-            })
+        updateTodoFetch({ id, completed })
             .then((data) => {
                 setTodos((prevTodos) =>
                     prevTodos.map((todo) =>
@@ -162,12 +74,9 @@ export const useTodosState = () => {
         filter,
         setFilter,
         addTodo,
-        deleteTodo,
-        updateTodo,
         updateCompletedTodo,
         isLoading,
         isCreating,
-        isDeleting,
         isUpdating,
         currentTodoId,
     };

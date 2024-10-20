@@ -1,19 +1,14 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTodoState } from '../../hooks';
-import { BackButton } from '../BackButton/back-button';
-import { useState } from 'react';
+import { TodoEditForm } from './components';
+import { BackButton } from '../../components';
 import styles from './todo-task.module.css';
-import { TodoEditForm } from '../TodoEditForm/todo-edit-form';
 
 export const TodoTask = () => {
     const params = useParams();
     const id = params.id;
 
-    /** FIXME:
-     * 1. Найти способ объеденить use-todos-state и use-todo-state
-     *      useTodosState - хук для управления состоянием списка задач
-     *      useTodoState - хук для управления состоянием одной задачи
-     */
     const { todo, setTodo, resetTodo, deleteTodo, updateTodo } = useTodoState(id);
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -39,7 +34,7 @@ export const TodoTask = () => {
 
     return (
         <>
-            <BackButton>⬅️ Назад</BackButton>
+            <BackButton />
             <div className={styles.control}>
                 <button disabled={isEditMode} onClick={onEdit}>
                     ✏️ Редактировать
