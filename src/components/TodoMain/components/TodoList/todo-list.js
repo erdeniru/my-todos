@@ -15,13 +15,7 @@ const stringDescending = (a, b) => {
     return 0;
 };
 
-export const TodoList = ({
-    todos,
-    updateCompletedTodo,
-    isLoading,
-    isUpdating,
-    currentTodoId,
-}) => {
+export const TodoList = ({ todos, isLoading }) => {
     // сортировку выполняем на стороне клиента
     const [sort, setSort] = useState('');
     const [sortedTodos, setSortedTodos] = useState(todos || []);
@@ -46,12 +40,7 @@ export const TodoList = ({
                     <ul>
                         {sortedTodos.map((todo) => (
                             <li key={todo.id}>
-                                <TodoListItem
-                                    todo={todo}
-                                    updateCompletedTodo={updateCompletedTodo}
-                                    isUpdating={isUpdating}
-                                    currentTodoId={currentTodoId}
-                                />
+                                <TodoListItem todo={todo} />
                             </li>
                         ))}
                     </ul>

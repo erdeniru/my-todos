@@ -1,5 +1,6 @@
 import { useTodosState } from '../../hooks';
 import { TodoAddForm, FilterInput, TodoList } from './components';
+import { MainContext } from './main-context';
 
 export const TodoMain = () => {
     const {
@@ -15,17 +16,11 @@ export const TodoMain = () => {
     } = useTodosState(); // хук для управления состоянием Todos
 
     return (
-        <>
+        <MainContext.Provider value={{ updateCompletedTodo, isUpdating, currentTodoId }}>
             <TodoAddForm addTodo={addTodo} isCreating={isCreating} />
             <h2>Список дел</h2>
             <FilterInput filter={filter} setFilter={setFilter} />
-            <TodoList
-                todos={todos}
-                updateCompletedTodo={updateCompletedTodo}
-                isLoading={isLoading}
-                isUpdating={isUpdating}
-                currentTodoId={currentTodoId}
-            />
-        </>
+            <TodoList todos={todos} isLoading={isLoading} />
+        </MainContext.Provider>
     );
 };
