@@ -2,7 +2,7 @@ import { useTodosState } from '../../hooks';
 import { TodoAddForm, FilterInput, TodoList } from './components';
 import { MainContext } from './main-context';
 
-export const TodoMain = () => {
+export const MainPage = () => {
     const {
         todos,
         filter,

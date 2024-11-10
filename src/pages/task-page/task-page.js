@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTodoState } from '../../hooks';
 import { TodoEditForm } from './components';
-import { BackButton } from '../../components';
-import styles from './todo-task.module.css';
+import { BackButton, Button } from '../../components';
+import styles from './task-page.module.css';
 
-export const TodoTask = () => {
+export const TaskPage = () => {
     const params = useParams();
     const id = params.id;
 
@@ -36,10 +36,10 @@ export const TodoTask = () => {
         <>
             <BackButton />
             <div className={styles.control}>
-                <button disabled={isEditMode} onClick={onEdit}>
+                <Button disabled={isEditMode} onClick={onEdit}>
                     ✏️ Редактировать
-                </button>
-                <button onClick={onDelete}>❌ Удалить</button>
+                </Button>
+                <Button onClick={onDelete}>❌ Удалить</Button>
             </div>
             <TodoEditForm
                 todo={todo}

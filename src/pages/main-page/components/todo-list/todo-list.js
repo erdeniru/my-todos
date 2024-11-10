@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { SortInput } from '../../components';
-import { TodoListItem } from './TodoListItem/todo-list-item';
+import { SortInput } from '..';
+import { TodoListItem } from './todo-list-item/todo-list-item';
 import styles from './todo-list.module.css';
 
 const stringAscending = (a, b) => {

@@ -1,6 +1,6 @@
-import { BackButton } from '../BackButton/back-button';
+import { BackButton } from '../../components';
 
-export const PageNotFound = ({ url }) => {
+export const NotFoundPage = ({ url }) => {
     return (
         <>
             <BackButton />

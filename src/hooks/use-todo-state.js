@@ -25,6 +25,7 @@ export const useTodoState = (initialId) => {
                 })
                 .catch((error) => {
                     console.log('Ошибка загрузки данных', error);
+                    navigate('/task-load-error', { replace: true });
                 })
                 .finally(() => {
                     setIsLoading(false);
