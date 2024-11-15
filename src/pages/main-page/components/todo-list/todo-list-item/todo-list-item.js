@@ -2,11 +2,12 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FETCH_STATUS } from '../../../../../constants/fetch-status';
 import { updateTodoCompleted } from '../../../../../store/actions';
+import { selectMainState } from '../../../../../store/selectors';
 import styles from './todo-list-tem.module.css';
 
 export const TodoListItem = ({ todo }) => {
     const dispatch = useDispatch();
-    const { status, currentTodoId } = useSelector((state) => state.mainReducer);
+    const { status, currentTodoId } = useSelector(selectMainState);
 
     const { id, title, completed } = todo;
 

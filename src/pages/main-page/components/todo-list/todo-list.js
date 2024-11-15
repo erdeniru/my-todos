@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FETCH_STATUS } from '../../../../constants/fetch-status';
 import { SortInput } from '../sort-input/sort-input';
 import { TodoListItem } from './todo-list-item/todo-list-item';
 import { fetchTodos } from '../../../../store/actions';
+import { selectMainState } from '../../../../store/selectors';
+import { FETCH_STATUS } from '../../../../constants/fetch-status';
 import styles from './todo-list.module.css';
 
 export const TodoList = () => {
     const dispatch = useDispatch();
-    const { todos, status } = useSelector((state) => state.mainReducer);
+    const { todos, status } = useSelector(selectMainState);
 
     useEffect(() => {
         dispatch(fetchTodos());

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TodoEditForm } from './components';
 import { BackButton } from '../../components';
 import { deleteTodo, readTodo, updateTodo } from '../../store/actions/task-action';
+import { selectTaskState } from '../../store/selectors';
 import styles from './task-page.module.css';
 
 export const TaskPage = () => {
@@ -14,7 +15,7 @@ export const TaskPage = () => {
     const id = params.id;
 
     const dispatch = useDispatch();
-    const { todo } = useSelector((state) => state.taskReducer);
+    const { todo } = useSelector(selectTaskState);
 
     useEffect(() => {
         dispatch(readTodo(id));
