@@ -1,44 +1,28 @@
-import { useEffect, useState } from 'react';
-import { SortInput } from '..';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FETCH_STATUS } from '../../../../constants/fetch-status';
+import { SortInput } from '../sort-input/sort-input';
 import { TodoListItem } from './todo-list-item/todo-list-item';
+import { fetchTodos } from '../../../../store/actions';
 import styles from './todo-list.module.css';
 
-const stringAscending = (a, b) => {
-    if (a.title < b.title) return -1;
-    if (a.title > b.title) return 1;
-    return 0;
-};
-
-const stringDescending = (a, b) => {
-    if (a.title < b.title) return 1;
-    if (a.title > b.title) return -1;
-    return 0;
-};
-
-export const TodoList = ({ todos, isLoading }) => {
-    // сортировку выполняем на стороне клиента
-    const [sort, setSort] = useState('');
-    const [sortedTodos, setSortedTodos] = useState(todos || []);
+export const TodoList = () => {
+    const dispatch = useDispatch();
+    const { todos, status } = useSelector((state) => state.mainReducer);
 
     useEffect(() => {
-        if (sort === 'asc') {
-            setSortedTodos([...todos].sort(stringAscending));
-        } else if (sort === 'desc') {
-            setSortedTodos([...todos].sort(stringDescending));
-        } else {
-            setSortedTodos(todos);
-        }
-    }, [todos, sort]);
+        dispatch(fetchTodos());
+    }, [dispatch]);
 
     return (
         <div className={styles['todo-list']}>
-            {isLoading ? (
+            {status === FETCH_STATUS.READING ? (
                 'Загрузка данных...'
-            ) : sortedTodos && sortedTodos.length > 0 ? (
+            ) : todos && todos.length > 0 ? (
                 <div className={styles.list}>
-                    <SortInput sort={sort} setSort={setSort} />
+                    <SortInput />
                     <ul>
-                        {sortedTodos.map((todo) => (
+                        {todos.map((todo) => (
                             <li key={todo.id}>
                                 <TodoListItem todo={todo} />
                             </li>

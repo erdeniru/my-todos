@@ -1,34 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useTodoState } from '../../hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { TodoEditForm } from './components';
-import { BackButton, Button } from '../../components';
+import { BackButton } from '../../components';
+import { deleteTodo, readTodo, updateTodo } from '../../store/actions/task-action';
 import styles from './task-page.module.css';
 
 export const TaskPage = () => {
-    const params = useParams();
-    const id = params.id;
-
-    const { todo, setTodo, resetTodo, deleteTodo, updateTodo } = useTodoState(id);
-
     const [isEditMode, setIsEditMode] = useState(false);
 
     const navigate = useNavigate();
+    const params = useParams();
+    const id = params.id;
+
+    const dispatch = useDispatch();
+    const { todo } = useSelector((state) => state.taskReducer);
+
+    useEffect(() => {
+        dispatch(readTodo(id));
+    }, [id, dispatch]);
 
     const onEdit = () => setIsEditMode(!isEditMode);
 
     const onDelete = () => {
-        deleteTodo();
+        dispatch(deleteTodo(id));
         navigate('/', { replace: true });
     };
 
-    const onSave = () => {
-        updateTodo();
+    const onSubmit = (todo) => {
+        dispatch(updateTodo(todo));
         setIsEditMode(false);
     };
 
     const onCancel = () => {
-        resetTodo();
+        dispatch(readTodo(id));
         setIsEditMode(false);
     };
 
@@ -36,16 +41,15 @@ export const TaskPage = () => {
         <>
             <BackButton />
             <div className={styles.control}>
-                <Button disabled={isEditMode} onClick={onEdit}>
+                <button disabled={isEditMode} onClick={onEdit}>
                     ✏️ Редактировать
-                </Button>
-                <Button onClick={onDelete}>❌ Удалить</Button>
+                </button>
+                <button onClick={onDelete}>❌ Удалить</button>
             </div>
             <TodoEditForm
                 todo={todo}
-                setTodo={setTodo}
                 readonly={!isEditMode}
-                onSubmit={onSave}
+                onSubmit={onSubmit}
                 onCancel={onCancel}
             />
         </>

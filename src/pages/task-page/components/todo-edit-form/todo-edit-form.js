@@ -1,20 +1,21 @@
+import { useEffect, useState } from 'react';
 import styles from './todo-edit-form.module.css';
 
-export const TodoEditForm = ({ todo, setTodo, readonly, onSubmit, onCancel }) => {
-    const onChangeTitle = (event) => {
-        setTodo((prev) => ({ ...prev, title: event.target.value }));
-    };
+export const TodoEditForm = ({ todo, readonly, onSubmit, onCancel }) => {
+    const [title, setTitle] = useState(todo.title);
+    const [completed, setCompleted] = useState(todo.completed);
 
-    const onChangeCompleted = (event) => {
-        setTodo((prev) => ({ ...prev, completed: event.target.checked }));
-    };
+    useEffect(() => {
+        setTitle(todo.title);
+        setCompleted(todo.completed);
+    }, [todo]);
 
     const handleSubmit = (onSubmit) => (event) => {
         if (event && event.preventDefault) {
             event.preventDefault();
         }
 
-        onSubmit(todo);
+        onSubmit({ ...todo, title, completed });
     };
 
     return (
@@ -24,16 +25,16 @@ export const TodoEditForm = ({ todo, setTodo, readonly, onSubmit, onCancel }) =>
                 <br />
                 <textarea
                     className={styles.title_textarea}
-                    value={todo.title}
-                    onChange={onChangeTitle}
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
                     disabled={readonly}
                 />
             </div>
             <div className={styles.completed}>
                 <input
                     type="checkbox"
-                    checked={todo.completed || false}
-                    onChange={onChangeCompleted}
+                    checked={completed || false}
+                    onChange={(event) => setCompleted(event.target.checked)}
                     disabled={readonly}
                 />{' '}
                 Выполнено
